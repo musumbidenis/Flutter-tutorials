@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
               child: InkWell(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Navigation()));
+                      MaterialPageRoute(builder: (context) => Debtors()));
                 },
                 child: ListTile(
                   title: Text(

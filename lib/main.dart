@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Madeni App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Home(),
