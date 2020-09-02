@@ -1,4 +1,6 @@
 import 'package:demo/Screens/screens.dart';
+// ignore: unused_import
+import 'package:demo/Data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -8,6 +10,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    DatabaseProvider.db.createDatabase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,11 +64,14 @@ class _HomeState extends State<Home> {
                 },
                 child: ListTile(
                   title: Text(
-                    'Check out the debts',
+                    'Check out the debts owed',
                     style: TextStyle(fontSize: 18.0),
                   ),
-                  leading: Icon(Icons.indeterminate_check_box),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  leading: Icon(
+                    Icons.monetization_on,
+                    size: 30.0,
+                  ),
+                  trailing: Icon(Icons.arrow_forward),
                 ),
               ),
             ),
@@ -129,11 +140,6 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   tooltip: 'Increment',
-      //   child: Icon(Icons.add),
-      // ),
     );
   }
 }
