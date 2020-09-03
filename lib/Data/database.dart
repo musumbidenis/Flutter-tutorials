@@ -46,6 +46,16 @@ Future<void> insertDebtor(Debtor debtor) async {
   );
 }
 
+Future<void> insertDebt(Debt debt) async {
+  final Database db = await database;
+
+  // Insert the Debtor into the correct table
+  await db.insert(
+    'debts',
+    debt.toMap(),
+  );
+}
+
 Future<List<Debtor>> getDebtors() async {
   final Database db = await database;
 
@@ -59,12 +69,4 @@ Future<List<Debtor>> getDebtors() async {
       phone: maps[i]['phone'].toString(),
     );
   });
-}
-
-Future<List> debtors() async {
-  final Database db = await database;
-  var result = await db.query('debtors');
-  List debtors = result.toList();
-  print(debtors);
-  return debtors;
 }

@@ -1,7 +1,14 @@
-class Debts {
+class Debt {
   final String name, debt;
-  final int amount;
-  final DateTime timestamp;
+  final String amount;
 
-  Debts(this.name, this.debt, this.amount, this.timestamp);
+  Debt({this.name, this.debt, this.amount});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'debt': debt,
+      'amount': amount,
+    };
+  }
 }

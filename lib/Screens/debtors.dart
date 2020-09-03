@@ -11,20 +11,22 @@ class Debtors extends StatefulWidget {
 }
 
 class _DebtorsState extends State<Debtors> {
-  Stream stream;
-  StreamController streamController;
-
   @override
   void initState() {
     super.initState();
     getDebtors();
   }
 
+  String debtorName;
   GlobalKey<FormState> _formKey = GlobalKey();
+  GlobalKey<FormState> _formKey2 = GlobalKey();
 
   /*Text Controllers */
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
+  TextEditingController debt = TextEditingController();
+  TextEditingController amount = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +78,7 @@ class _DebtorsState extends State<Debtors> {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
+                    debtorName = snapshot.data[index].name;
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5.0, horizontal: 18.0),
@@ -141,7 +144,7 @@ class _DebtorsState extends State<Debtors> {
                                     size: 31.0,
                                     color: Colors.green[300],
                                   ),
-                                  onPressed: () {},
+                                  onPressed: onPressed2,
                                 ),
                               ],
                             ),
@@ -161,13 +164,13 @@ class _DebtorsState extends State<Debtors> {
     );
   }
 
-/*Pop-up form modal*/
+/*Pop-up modal form - new debtor*/
   void onPressed() {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return PlatformAlertDialog(
-          title: Text('Add New Debtor'),
+          title: Center(child: Text('Add New Debtor')),
           content: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -221,6 +224,74 @@ class _DebtorsState extends State<Debtors> {
             PlatformDialogAction(
               child: Text('SUBMIT'),
               actionType: ActionType.Preferred,
+              onPressed: handleSubmit2,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /*Pop-up modal form - new debt*/
+  void onPressed2() {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return PlatformAlertDialog(
+          title: Center(child: Text('Add New Debt')),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _formKey2,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: debt,
+                    decoration: InputDecoration(
+                      labelText: "DEBT",
+                      labelStyle: TextStyle(
+                        fontFamily: 'Source Sans Pro',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[400],
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.pinkAccent)),
+                    ),
+                    // ignore: missing_return
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "DEBT field cannot be blank";
+                      }
+                    },
+                  ),
+                  SizedBox(height: 8.0),
+                  TextFormField(
+                    controller: amount,
+                    decoration: InputDecoration(
+                      labelText: "AMOUNT",
+                      labelStyle: TextStyle(
+                        fontFamily: 'Source Sans Pro',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[400],
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.pinkAccent)),
+                    ),
+                    keyboardType: TextInputType.phone,
+                    // ignore: missing_return
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "AMOUNT field cannot be blank";
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            PlatformDialogAction(
+              child: Text('SUBMIT'),
+              actionType: ActionType.Preferred,
               onPressed: handleSubmit,
             ),
           ],
@@ -244,6 +315,25 @@ class _DebtorsState extends State<Debtors> {
 
       name.clear();
       phone.clear();
+    }
+  }
+
+  /*Handles from submission to sqflite db*/
+  void handleSubmit2() async {
+    var form = _formKey2.currentState;
+    if (form.validate()) {
+      var newDebt = Debt(
+        name: debtorName,
+        debt: debt.text,
+        amount: amount.text,
+      );
+
+      insertDebt(newDebt);
+
+      Navigator.pop(context);
+
+      debt.clear();
+      amount.clear();
     }
   }
 }
