@@ -1,8 +1,8 @@
-class Debtors {
+class Debtor {
   final String name;
-  final int phone;
+  final String phone;
 
-  Debtors(this.name, this.phone);
+  Debtor({this.name, this.phone});
 
   Map<String, dynamic> toMap() {
     return {

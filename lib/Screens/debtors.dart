@@ -1,3 +1,5 @@
+import 'package:demo/Data/data.dart';
+import 'package:demo/Models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_alert_dialog/platform_alert_dialog.dart';
 
@@ -7,6 +9,12 @@ class Debtors extends StatefulWidget {
 }
 
 class _DebtorsState extends State<Debtors> {
+  @override
+  void initState() {
+    super.initState();
+    DatabaseProvider.db.debtors();
+  }
+
   GlobalKey<FormState> _formKey = GlobalKey();
 
   /*Text Controllers */
@@ -55,7 +63,51 @@ class _DebtorsState extends State<Debtors> {
           ),
         ),
       ),
-      body: Container(),
+      body: ListView(children: [
+        FutureBuilder(
+            future: DatabaseProvider.db.debtors(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 8.0,
+                    ),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: Colors.lightGreen[50],
+                            borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(5.0),
+                              topRight: const Radius.circular(5.0),
+                              bottomLeft: const Radius.circular(5.0),
+                              bottomRight: const Radius.circular(5.0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[800],
+                              ),
+                            ]),
+                        child: InkWell(
+                          onTap: null,
+                          child: ListTile(
+                            title: Text(
+                              snapshot.data[index].name,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            leading: Icon(
+                              Icons.monetization_on,
+                              size: 30.0,
+                            ),
+                            trailing: Icon(Icons.arrow_forward),
+                          ),
+                        ),
+                      );
+                    });
+              }
+            }),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: onPressed,
         backgroundColor: Colors.green[500],
@@ -134,8 +186,17 @@ class _DebtorsState extends State<Debtors> {
     );
   }
 
-  void handleSubmit() {
+  void handleSubmit() async {
     var form = _formKey.currentState;
-    if (form.validate()) {}
+    if (form.validate()) {
+      var newDebtor = Debtor(
+        name: name.text,
+        phone: phone.text,
+      );
+      DatabaseProvider.db.insertDebtor(newDebtor);
+      DatabaseProvider.db.debtors();
+
+      Navigator.pop(context);
+    }
   }
 }

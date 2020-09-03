@@ -1,3 +1,4 @@
+import 'package:demo/Models/models.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -37,5 +38,38 @@ class DatabaseProvider {
         );
       },
     );
+  }
+
+  Future<void> insertDebtor(Debtor debtor) async {
+    final Database db = await database;
+
+    // Insert the Debtor into the correct table
+    await db.insert(
+      'debtors',
+      debtor.toMap(),
+    );
+  }
+
+  Future<List<Debtor>> getDebtors() async {
+    final Database db = await database;
+
+    // Query the table for all The Debtors.
+    final List<Map<String, dynamic>> maps = await db.query('debtors');
+
+    // Convert the List<Map<String, dynamic> into a List<Debtor>.
+    return List.generate(maps.length, (i) {
+      return Debtor(
+        name: maps[i]['name'],
+        phone: maps[i]['phone'].toString(),
+      );
+    });
+  }
+
+  Future<List> debtors() async {
+    final Database db = await database;
+    var result = await db.query('debtors');
+    List debtors = result.toList();
+    print(debtors);
+    return debtors;
   }
 }
