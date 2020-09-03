@@ -70,3 +70,29 @@ Future<List<Debtor>> getDebtors() async {
     );
   });
 }
+
+Future<List<Debt>> getDebts() async {
+  final Database db = await database;
+
+  // Query the table for all The Debtors.
+  final List<Map<String, dynamic>> maps = await db.query('debts');
+
+  // Convert the List<Map<String, dynamic> into a List<Debt>.
+  return List.generate(maps.length, (i) {
+    var result = Debt(
+      name: maps[i]['name'],
+      debt: maps[i]['debt'],
+      amount: maps[i]['amount'].toString(),
+    );
+    print(result);
+    return result;
+  });
+}
+
+Future<List> debts() async {
+  final Database db = await database;
+  var result = await db.query('debts');
+  List debts = result.toList();
+  print(debts);
+  return debts;
+}

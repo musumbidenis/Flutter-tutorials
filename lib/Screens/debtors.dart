@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:demo/Data/data.dart';
 import 'package:demo/Models/models.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +13,10 @@ class _DebtorsState extends State<Debtors> {
   void initState() {
     super.initState();
     getDebtors();
+    getDebts();
+    debts();
   }
 
-  String debtorName;
   GlobalKey<FormState> _formKey = GlobalKey();
   GlobalKey<FormState> _formKey2 = GlobalKey();
 
@@ -78,7 +77,6 @@ class _DebtorsState extends State<Debtors> {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    debtorName = snapshot.data[index].name;
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5.0, horizontal: 18.0),
@@ -144,7 +142,102 @@ class _DebtorsState extends State<Debtors> {
                                     size: 31.0,
                                     color: Colors.green[300],
                                   ),
-                                  onPressed: onPressed2,
+                                  onPressed: () {
+                                    showDialog<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return PlatformAlertDialog(
+                                          title: Center(
+                                              child: Text('Add New Debt')),
+                                          content: SingleChildScrollView(
+                                            child: Form(
+                                              key: _formKey2,
+                                              child: Column(
+                                                children: [
+                                                  TextFormField(
+                                                    controller: debt,
+                                                    decoration: InputDecoration(
+                                                      labelText: "DEBT",
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Source Sans Pro',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey[400],
+                                                      ),
+                                                      focusedBorder:
+                                                          UnderlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .pinkAccent)),
+                                                    ),
+                                                    // ignore: missing_return
+                                                    validator: (String value) {
+                                                      if (value.isEmpty) {
+                                                        return "DEBT field cannot be blank";
+                                                      }
+                                                    },
+                                                  ),
+                                                  SizedBox(height: 8.0),
+                                                  TextFormField(
+                                                    controller: amount,
+                                                    decoration: InputDecoration(
+                                                      labelText: "AMOUNT",
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Source Sans Pro',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey[400],
+                                                      ),
+                                                      focusedBorder:
+                                                          UnderlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .pinkAccent)),
+                                                    ),
+                                                    keyboardType:
+                                                        TextInputType.phone,
+                                                    // ignore: missing_return
+                                                    validator: (String value) {
+                                                      if (value.isEmpty) {
+                                                        return "AMOUNT field cannot be blank";
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            PlatformDialogAction(
+                                                child: Text('SUBMIT'),
+                                                actionType:
+                                                    ActionType.Preferred,
+                                                onPressed: () {
+                                                  var form2 =
+                                                      _formKey2.currentState;
+                                                  if (form2.validate()) {
+                                                    var newDebt = Debt(
+                                                      name: snapshot
+                                                          .data[index].name,
+                                                      debt: debt.text,
+                                                      amount: amount.text,
+                                                    );
+
+                                                    insertDebt(newDebt);
+
+                                                    Navigator.pop(context);
+
+                                                    debt.clear();
+                                                    amount.clear();
+                                                  }
+                                                }),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -154,186 +247,94 @@ class _DebtorsState extends State<Debtors> {
             }
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: onPressed,
-        backgroundColor: Colors.green[300],
-        tooltip: 'Add new debtor',
-        child: Icon(
-          Icons.add,
-        ),
-      ),
-    );
-  }
-
-/*Pop-up modal form - new debtor*/
-  void onPressed() {
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return PlatformAlertDialog(
-          title: Center(child: Text('Add New Debtor')),
-          content: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: name,
-                    decoration: InputDecoration(
-                      labelText: "NAME",
-                      labelStyle: TextStyle(
-                        fontFamily: 'Source Sans Pro',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[400],
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.pinkAccent)),
-                    ),
-                    // ignore: missing_return
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return "NAME field cannot be blank";
-                      }
-                    },
-                  ),
-                  SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: phone,
-                    decoration: InputDecoration(
-                      labelText: "PHONE",
-                      labelStyle: TextStyle(
-                        fontFamily: 'Source Sans Pro',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[400],
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.pinkAccent)),
-                    ),
-                    keyboardType: TextInputType.phone,
-                    // ignore: missing_return
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return "PHONE field cannot be blank";
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
+          backgroundColor: Colors.green[300],
+          tooltip: 'Add new debtor',
+          child: Icon(
+            Icons.add,
           ),
-          actions: <Widget>[
-            PlatformDialogAction(
-              child: Text('SUBMIT'),
-              actionType: ActionType.Preferred,
-              onPressed: handleSubmit2,
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  /*Pop-up modal form - new debt*/
-  void onPressed2() {
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return PlatformAlertDialog(
-          title: Center(child: Text('Add New Debt')),
-          content: SingleChildScrollView(
-            child: Form(
-              key: _formKey2,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: debt,
-                    decoration: InputDecoration(
-                      labelText: "DEBT",
-                      labelStyle: TextStyle(
-                        fontFamily: 'Source Sans Pro',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[400],
+          onPressed: () {
+            showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return PlatformAlertDialog(
+                  title: Center(child: Text('Add New Debtor')),
+                  content: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: name,
+                            decoration: InputDecoration(
+                              labelText: "NAME",
+                              labelStyle: TextStyle(
+                                fontFamily: 'Source Sans Pro',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[400],
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.pinkAccent)),
+                            ),
+                            // ignore: missing_return
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "NAME field cannot be blank";
+                              }
+                            },
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: phone,
+                            decoration: InputDecoration(
+                              labelText: "PHONE",
+                              labelStyle: TextStyle(
+                                fontFamily: 'Source Sans Pro',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[400],
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.pinkAccent)),
+                            ),
+                            keyboardType: TextInputType.phone,
+                            // ignore: missing_return
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "PHONE field cannot be blank";
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.pinkAccent)),
                     ),
-                    // ignore: missing_return
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return "DEBT field cannot be blank";
-                      }
-                    },
                   ),
-                  SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: amount,
-                    decoration: InputDecoration(
-                      labelText: "AMOUNT",
-                      labelStyle: TextStyle(
-                        fontFamily: 'Source Sans Pro',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[400],
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.pinkAccent)),
+                  actions: <Widget>[
+                    PlatformDialogAction(
+                      child: Text('SUBMIT'),
+                      actionType: ActionType.Preferred,
+                      onPressed: () {
+                        var form = _formKey.currentState;
+                        if (form.validate()) {
+                          var newDebtor = Debtor(
+                            name: name.text,
+                            phone: phone.text,
+                          );
+
+                          insertDebtor(newDebtor);
+
+                          Navigator.pop(context);
+
+                          name.clear();
+                          phone.clear();
+                        }
+                      },
                     ),
-                    keyboardType: TextInputType.phone,
-                    // ignore: missing_return
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return "AMOUNT field cannot be blank";
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            PlatformDialogAction(
-              child: Text('SUBMIT'),
-              actionType: ActionType.Preferred,
-              onPressed: handleSubmit,
-            ),
-          ],
-        );
-      },
+                  ],
+                );
+              },
+            );
+          }),
     );
-  }
-
-/*Handles from submission to sqflite db*/
-  void handleSubmit() async {
-    var form = _formKey.currentState;
-    if (form.validate()) {
-      var newDebtor = Debtor(
-        name: name.text,
-        phone: phone.text,
-      );
-
-      insertDebtor(newDebtor);
-
-      Navigator.pop(context);
-
-      name.clear();
-      phone.clear();
-    }
-  }
-
-  /*Handles from submission to sqflite db*/
-  void handleSubmit2() async {
-    var form = _formKey2.currentState;
-    if (form.validate()) {
-      var newDebt = Debt(
-        name: debtorName,
-        debt: debt.text,
-        amount: amount.text,
-      );
-
-      insertDebt(newDebt);
-
-      Navigator.pop(context);
-
-      debt.clear();
-      amount.clear();
-    }
   }
 }
