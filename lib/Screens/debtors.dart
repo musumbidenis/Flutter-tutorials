@@ -17,6 +17,7 @@ class _DebtorsState extends State<Debtors> {
   @override
   void initState() {
     super.initState();
+    getDebtors();
   }
 
   GlobalKey<FormState> _formKey = GlobalKey();
@@ -27,13 +28,14 @@ class _DebtorsState extends State<Debtors> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
+      backgroundColor: Colors.lightGreen[200],
       appBar: AppBar(
-        backgroundColor: Colors.green[500],
+        backgroundColor: Colors.lightGreen[200],
         title: Text(
           "Madeni App",
-          style: TextStyle(fontSize: 21.0),
+          style: TextStyle(fontSize: 25.0, color: Colors.grey[800]),
         ),
+        elevation: 0.0,
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
@@ -45,7 +47,7 @@ class _DebtorsState extends State<Debtors> {
                       child: Container(
                     margin: EdgeInsets.only(left: 12.0, bottom: 18.0),
                     decoration: BoxDecoration(
-                        color: Colors.lightGreen[100],
+                        color: Colors.lightGreen[50],
                         borderRadius: BorderRadius.circular(24.0)),
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -72,47 +74,85 @@ class _DebtorsState extends State<Debtors> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 8.0,
-                  ),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          color: Colors.lightGreen[50],
-                          borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(5.0),
-                            topRight: const Radius.circular(5.0),
-                            bottomLeft: const Radius.circular(5.0),
-                            bottomRight: const Radius.circular(5.0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey[800],
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 18.0),
+                      child: Container(
+                          height: 95.0,
+                          decoration: BoxDecoration(
+                              color: Colors.lightGreen[50],
+                              borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(9.0),
+                                topRight: const Radius.circular(9.0),
+                                bottomLeft: const Radius.circular(9.0),
+                                bottomRight: const Radius.circular(9.0),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey[800],
+                                ),
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(13.0),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.green[300],
+                                  radius: 30.0,
+                                  child: Text(
+                                    snapshot.data[index].name[0].toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 28.0),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        snapshot.data[index].name,
+                                        style: TextStyle(fontSize: 17.0),
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                            style: TextStyle(
+                                                color: Colors.grey[800]),
+                                            children: [
+                                              TextSpan(
+                                                  text: "Kshs 300 / ",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(text: "Kshs 2000")
+                                            ]),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.add_box,
+                                    size: 31.0,
+                                    color: Colors.green[300],
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ],
                             ),
-                          ]),
-                      child: InkWell(
-                        onTap: null,
-                        child: ListTile(
-                          title: Text(
-                            snapshot.data[index].name,
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          leading: Icon(
-                            Icons.monetization_on,
-                            size: 30.0,
-                          ),
-                          trailing: Icon(Icons.arrow_forward),
-                        ),
-                      ),
+                          )),
                     );
                   });
             }
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: onPressed,
-        backgroundColor: Colors.green[500],
+        backgroundColor: Colors.green[300],
         tooltip: 'Add new debtor',
         child: Icon(
           Icons.add,
@@ -121,6 +161,7 @@ class _DebtorsState extends State<Debtors> {
     );
   }
 
+/*Pop-up form modal*/
   void onPressed() {
     showDialog<void>(
       context: context,
@@ -188,6 +229,7 @@ class _DebtorsState extends State<Debtors> {
     );
   }
 
+/*Handles from submission to sqflite db*/
   void handleSubmit() async {
     var form = _formKey.currentState;
     if (form.validate()) {
@@ -195,10 +237,13 @@ class _DebtorsState extends State<Debtors> {
         name: name.text,
         phone: phone.text,
       );
+
       insertDebtor(newDebtor);
-      debtors();
 
       Navigator.pop(context);
+
+      name.clear();
+      phone.clear();
     }
   }
 }
