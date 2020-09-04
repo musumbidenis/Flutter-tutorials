@@ -89,6 +89,17 @@ Future<List<Debt>> getDebts() async {
   });
 }
 
+paid(
+  String name,
+) async {
+  final Database db = await database;
+  var result = await db.rawQuery(
+      'SELECT SUM(amount) as total FROM debts WHERE name = ?', ['$name']);
+  print(result[0]);
+
+  return result[0];
+}
+
 Future<List> debts() async {
   final Database db = await database;
   var result = await db.query('debts');

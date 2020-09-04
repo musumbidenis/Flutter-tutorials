@@ -132,7 +132,7 @@ class _HomeState extends State<Home> {
                         ),
                         circularStrokeCap: CircularStrokeCap.round,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
