@@ -84,20 +84,19 @@ Future<List<Debt>> getDebts() async {
       debt: maps[i]['debt'],
       amount: maps[i]['amount'].toString(),
     );
-    print(result);
     return result;
   });
 }
 
-paid(
-  String name,
-) async {
+paid(String name) async {
   final Database db = await database;
-  var result = await db.rawQuery(
+  final List<Map<String, dynamic>> maps = await db.rawQuery(
       'SELECT SUM(amount) as total FROM debts WHERE name = ?', ['$name']);
-  print(result[0]);
-
-  return result[0];
+  return List.generate(maps.length, (index) {
+    var total = [maps[index]['total']];
+    print(total);
+    return total;
+  });
 }
 
 Future<List> debts() async {

@@ -1,6 +1,8 @@
 import 'package:demo/Data/data.dart';
+import 'package:demo/Screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:sqflite/sqflite.dart';
 
 class Debts extends StatefulWidget {
   final String name;
@@ -59,10 +61,10 @@ class _DebtsState extends State<Debts> {
                       Container(
                         height: 20,
                         child: FutureBuilder(
-                            future: paid(widget.name),
+                            future: getDebts(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                Text(snapshot.data);
+                                Text(snapshot.data.name[0]);
                               }
                             }),
                       ),
