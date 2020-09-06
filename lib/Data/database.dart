@@ -96,11 +96,12 @@ Future<List<Debtor>> getDebtors() async {
   });
 }
 
-Future<List<Debt>> getDebts() async {
+Future<List<Debt>> getDebts(String name) async {
   final Database db = await database;
 
   // Query the table for all The Debtors.
-  final List<Map<String, dynamic>> maps = await db.query('debts');
+  final List<Map<String, dynamic>> maps =
+      await db.rawQuery('SELECT * FROM debts WHERE name = ?', ['$name']);
 
   // Convert the List<Map<String, dynamic> into a List<Debt>.
   return List.generate(maps.length, (i) {

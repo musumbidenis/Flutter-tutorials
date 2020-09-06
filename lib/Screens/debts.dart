@@ -1,8 +1,6 @@
 import 'package:demo/Data/data.dart';
-import 'package:demo/Screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:sqflite/sqflite.dart';
 
 class Debts extends StatefulWidget {
   final String name;
@@ -16,6 +14,7 @@ class _DebtsState extends State<Debts> {
   @override
   void initState() {
     super.initState();
+    getDebts(widget.name);
     getPayments(widget.name);
   }
 
@@ -35,9 +34,9 @@ class _DebtsState extends State<Debts> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(0.0),
+            padding: const EdgeInsets.only(bottom: 10.0),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.4,
+              padding: const EdgeInsets.only(bottom: 40.0),
               color: Colors.lightGreen[100],
               child: FutureBuilder(
                   future: getPayments(widget.name),
@@ -58,7 +57,6 @@ class _DebtsState extends State<Debts> {
                         lineWidth: 18.0,
                         animation: true,
                         percent: percentage,
-                        backgroundColor: Colors.grey[350],
                         progressColor:
                             percentage >= 0.5 ? Colors.green[300] : Colors.red,
                         center: Text(
@@ -111,28 +109,71 @@ class _DebtsState extends State<Debts> {
                   }),
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: FutureBuilder(
-                future: getDebts(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 100.0,
-                              color: Colors.yellow,
+          FutureBuilder(
+              future: getDebts(widget.name),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  var timestamp = DateTime.now();
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 15.0),
+                          child: Container(
+                            height: 85.0,
+                            decoration: BoxDecoration(
+                                color: Colors.lightGreen[100],
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(5.0),
+                                  topRight: const Radius.circular(5.0),
+                                  bottomLeft: const Radius.circular(5.0),
+                                  bottomRight: const Radius.circular(5.0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey[800],
+                                  ),
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: Icon(
+                                  Icons.error_outline,
+                                  size: 40.0,
+                                  color: Colors.red,
+                                ),
+                                title: Text(
+                                    snapshot.data[index].debt.toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                    )),
+                                subtitle: Text(timestamp.toString()),
+                                trailing: Text(
+                                  "Kshs " + snapshot.data[index].amount,
+                                  style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ),
                             ),
-                          );
-                        });
-                  }
-                }),
-          )
+                          ),
+                        );
+                      });
+                }
+              }),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green[200],
+          tooltip: 'Reduce Total Debt',
+          child: Icon(
+            Icons.edit,
+          ),
+          onPressed: null),
     );
   }
 }

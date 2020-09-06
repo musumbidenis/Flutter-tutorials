@@ -10,10 +10,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String greeting() {
+    var hour = DateTime.now().hour;
+    print(hour);
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
+  }
+
   @override
   void initState() {
     super.initState();
     createDatabase();
+    greeting();
   }
 
   @override
@@ -34,7 +47,7 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(width: 15.0),
                 Text(
-                  "Good Morning,\nChelsea",
+                  greeting() + "\nChelsea",
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 )
               ],
