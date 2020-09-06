@@ -14,8 +14,6 @@ class _DebtorsState extends State<Debtors> {
   void initState() {
     super.initState();
     getDebtors();
-    getDebts();
-    debts();
   }
 
   GlobalKey<FormState> _formKey = GlobalKey();
@@ -245,6 +243,8 @@ class _DebtorsState extends State<Debtors> {
                                                       );
 
                                                       insertDebt(newDebt);
+                                                      updatePayment(snapshot
+                                                          .data[index].name);
 
                                                       Navigator.pop(context);
 
@@ -336,12 +336,21 @@ class _DebtorsState extends State<Debtors> {
                       onPressed: () {
                         var form = _formKey.currentState;
                         if (form.validate()) {
+                          /*Add Debtors details to db */
                           var newDebtor = Debtor(
                             name: name.text,
                             phone: phone.text,
                           );
-
                           insertDebtor(newDebtor);
+
+                          /*Add new payment record fro debtor to db */
+                          var newPayment = Payment(
+                            name: name.text,
+                            total: '0',
+                            paid: '0',
+                          );
+
+                          insertPayment(newPayment);
 
                           Navigator.pop(context);
 

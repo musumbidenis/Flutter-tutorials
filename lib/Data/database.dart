@@ -21,7 +21,7 @@ Future<Database> createDatabase() async {
   String dbPath = await getDatabasesPath();
 
   return await openDatabase(
-    join(dbPath, 'madeni.db'),
+    join(dbPath, 'madeni2.db'),
     version: 1,
     onCreate: (Database database, int version) async {
       print("Creating tables");
@@ -31,6 +31,9 @@ Future<Database> createDatabase() async {
       );
       await database.execute(
         "CREATE TABLE debts(debtId INTEGER PRIMARY KEY, name TEXT, debt TEXT, amount INTEGER, FOREIGN KEY(name) REFERENCES debtors(name))",
+      );
+      await database.execute(
+        "CREATE TABLE payments(name TEXT PRIMARY KEY, total INTEGER, paid INTEGER, FOREIGN KEY(name) REFERENCES debtors(name))",
       );
     },
   );
@@ -54,6 +57,23 @@ Future<void> insertDebt(Debt debt) async {
     'debts',
     debt.toMap(),
   );
+}
+
+Future<void> insertPayment(Payment payment) async {
+  final Database db = await database;
+
+  // Insert the Payment into the correct table
+  await db.insert(
+    'payments',
+    payment.toMap(),
+  );
+}
+
+Future<void> updatePayment(String name) async {
+  final db = await database;
+  await db.rawUpdate(
+      '''UPDATE payments SET total = (SELECT SUM(amount) as total FROM debts WHERE name = ?) WHERE name = ?''',
+      ['$name', '$name']);
 }
 
 Future<List<Debtor>> getDebtors() async {
@@ -88,21 +108,46 @@ Future<List<Debt>> getDebts() async {
   });
 }
 
-paid(String name) async {
+Future<List<Payment>> getPayments(String name) async {
   final Database db = await database;
+
+  // Query the table for all The Payments.
   final List<Map<String, dynamic>> maps = await db.rawQuery(
-      'SELECT SUM(amount) as total FROM debts WHERE name = ?', ['$name']);
-  return List.generate(maps.length, (index) {
-    var total = [maps[index]['total']];
-    print(total);
-    return total;
+      'SELECT name, total, paid FROM payments WHERE name = ?', ['$name']);
+
+  // Convert the List<Map<String, dynamic> into a List<Debtor>.
+  return List.generate(maps.length, (i) {
+    return Payment(
+      name: maps[i]['name'],
+      total: maps[i]['total'].toString(),
+      paid: maps[i]['paid'].toString(),
+    );
   });
 }
 
-Future<List> debts() async {
-  final Database db = await database;
-  var result = await db.query('debts');
-  List debts = result.toList();
-  print(debts);
-  return debts;
-}
+// Future<List> debts() async {
+//   final Database db = await database;
+//   var result = await db.query('debts');
+//   List debts = result.toList();
+//   print(debts);
+//   return debts;
+// }
+
+// getPayment() async {
+//   final Database db = await database;
+//   final List<Map<String, dynamic>> maps =
+//       await db.rawQuery('SELECT * FROM payments');
+//   print(maps);
+//   return maps;
+// }
+
+// paid(String name, int total) async {
+//   final Database db = await database;
+//   final List<Map<String, dynamic>> maps = await db.rawQuery(
+//       'SELECT SUM(amount) as total FROM debts WHERE name = ?', ['$name']);
+//   return List.generate(maps.length, (index) {
+//     total = maps[index]['total'];
+//     print(total);
+//     return total;
+//   });
+// }

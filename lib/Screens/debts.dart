@@ -13,10 +13,25 @@ class Debts extends StatefulWidget {
 }
 
 class _DebtsState extends State<Debts> {
+  int total;
   @override
   void initState() {
     super.initState();
     paid(widget.name);
+    getPayments(widget.name);
+  }
+
+  paid(String name) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        'SELECT SUM(amount) as total FROM debts WHERE name = ?', ['$name']);
+    return List.generate(maps.length, (index) {
+      setState(() {
+        total = maps[index]['total'];
+      });
+
+      return total;
+    });
   }
 
   @override
@@ -37,7 +52,7 @@ class _DebtsState extends State<Debts> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.9,
               color: Colors.lightGreen[100],
               child: Center(
                 child: CircularPercentIndicator(
@@ -46,10 +61,15 @@ class _DebtsState extends State<Debts> {
                   animation: true,
                   percent: 0.7,
                   progressColor: Colors.green[300],
-                  center: Text(
-                    "Kshs. 200" + "\nPaid",
-                    style: TextStyle(fontSize: 20.0),
-                  ),
+                  center: FutureBuilder(
+                      future: getPayments(widget.name),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return Text(
+                          "Kshs " + snapshot.data[0].paid + "\n paid",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                        );
+                      }),
                   footer: Column(
                     children: [
                       Divider(
@@ -58,27 +78,26 @@ class _DebtsState extends State<Debts> {
                       SizedBox(height: 10.0),
                       Text("Remaining Balance"),
                       SizedBox(height: 10.0),
-                      Container(
-                        height: 20,
-                        child: FutureBuilder(
-                            future: getDebts(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                Text(snapshot.data.name[0]);
-                              }
-                            }),
-                      ),
-                      // RichText(
-                      //   text: TextSpan(
-                      //       style: TextStyle(color: Colors.grey[800]),
-                      //       children: [
-                      //         TextSpan(
-                      //             text: "Kshs 300 / ",
-                      //             style:
-                      //                 TextStyle(fontWeight: FontWeight.bold)),
-                      //         TextSpan(text: "Kshs 2000")
-                      //       ]),
-                      // ),
+                      FutureBuilder(
+                          future: getPayments(widget.name),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return RichText(
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.grey[800]),
+                                    children: [
+                                      TextSpan(
+                                          text: "c",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text:
+                                              "Kshs " + snapshot.data[0].total),
+                                    ]),
+                              );
+                            }
+                          })
                     ],
                   ),
                   circularStrokeCap: CircularStrokeCap.round,
