@@ -14,6 +14,7 @@ class _DebtorsState extends State<Debtors> {
   void initState() {
     super.initState();
     getDebtors();
+    getTotal();
   }
 
   GlobalKey<FormState> _formKey = GlobalKey();
@@ -129,6 +130,12 @@ class _DebtorsState extends State<Debtors> {
                                           snapshot.data[index].name
                                               .toUpperCase(),
                                           style: TextStyle(fontSize: 17.0),
+                                        ),
+                                        Text(
+                                          "0" +
+                                              snapshot.data[index].phone
+                                                  .toUpperCase(),
+                                          style: TextStyle(fontSize: 12.0),
                                         ),
                                         // RichText(
                                         //   text: TextSpan(

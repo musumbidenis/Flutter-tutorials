@@ -111,41 +111,66 @@ class _HomeState extends State<Home> {
                     Text("Payment Progress:",
                         style: TextStyle(
                             fontSize: 17.0, fontWeight: FontWeight.bold)),
-                    Center(
-                      child: CircularPercentIndicator(
-                        radius: 150.0,
-                        lineWidth: 18.0,
-                        animation: true,
-                        percent: 0.7,
-                        progressColor: Colors.green[300],
-                        center: Text(
-                          "Kshs. 200" + "\nPaid",
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                        footer: Column(
-                          children: [
-                            Divider(
-                              height: 3,
+                    FutureBuilder(
+                        future: getTotal(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          var a = snapshot.data[0]['total'];
+                          var b = snapshot.data[0]['paid'];
+                          var c = a - b;
+                          var d = ((b / a) * 100) / 100;
+                          double percentage;
+                          if (b == 0) {
+                            percentage = 0.000001;
+                          } else {
+                            percentage = d.toDouble();
+                          }
+                          return Center(
+                            child: CircularPercentIndicator(
+                              radius: 150.0,
+                              lineWidth: 18.0,
+                              animation: true,
+                              percent: percentage,
+                              progressColor: percentage >= 0.5
+                                  ? Colors.green[300]
+                                  : Colors.red,
+                              center: Text(
+                                "Kshs " +
+                                    snapshot.data[0]['paid'].toString() +
+                                    "\nPaid",
+                                style: TextStyle(fontSize: 20.0),
+                              ),
+                              footer: Column(
+                                children: [
+                                  Divider(
+                                    height: 3,
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Text("Remaining Balance"),
+                                  SizedBox(height: 10.0),
+                                  RichText(
+                                    text: TextSpan(
+                                        style:
+                                            TextStyle(color: Colors.grey[800]),
+                                        children: [
+                                          TextSpan(
+                                              text: "Kshs " +
+                                                  c.toString() +
+                                                  " / ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                              text: "Kshs " +
+                                                  snapshot.data[0]['total']
+                                                      .toString())
+                                        ]),
+                                  ),
+                                ],
+                              ),
+                              circularStrokeCap: CircularStrokeCap.round,
                             ),
-                            SizedBox(height: 10.0),
-                            Text("Remaining Balance"),
-                            SizedBox(height: 10.0),
-                            RichText(
-                              text: TextSpan(
-                                  style: TextStyle(color: Colors.grey[800]),
-                                  children: [
-                                    TextSpan(
-                                        text: "Kshs 300 / ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(text: "Kshs 2000")
-                                  ]),
-                            ),
-                          ],
-                        ),
-                        circularStrokeCap: CircularStrokeCap.round,
-                      ),
-                    ),
+                          );
+                        }),
                   ],
                 ),
               ),

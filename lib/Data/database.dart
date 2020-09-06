@@ -131,6 +131,15 @@ Future<List<Payment>> getPayments(String name) async {
   });
 }
 
+getTotal() async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps = await db
+      .rawQuery('SELECT SUM(total) as total, SUM(paid) as paid FROM payments');
+  print(maps);
+  return maps.toList();
+}
+
 // Future<List> debts() async {
 //   final Database db = await database;
 //   var result = await db.query('debts');

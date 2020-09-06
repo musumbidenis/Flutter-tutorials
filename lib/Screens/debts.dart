@@ -1,5 +1,6 @@
 import 'package:demo/Data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class Debts extends StatefulWidget {
@@ -42,12 +43,12 @@ class _DebtsState extends State<Debts> {
                   future: getPayments(widget.name),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     var a = snapshot.data[0].total;
-                    var b = 0;
+                    var b = snapshot.data[0].paid;
                     var c = a - b;
                     var d = ((b / a) * 100) / 100;
                     double percentage;
                     if (b == 0) {
-                      percentage = 0.0;
+                      percentage = 0.000001;
                     } else {
                       percentage = d.toDouble();
                     }
@@ -113,7 +114,8 @@ class _DebtsState extends State<Debts> {
               future: getDebts(widget.name),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  var timestamp = DateTime.now();
+                  var now = DateTime.now();
+                  var timestamp = DateFormat.yMMMEd().format(now);
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
