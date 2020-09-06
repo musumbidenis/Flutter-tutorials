@@ -346,8 +346,8 @@ class _DebtorsState extends State<Debtors> {
                           /*Add new payment record fro debtor to db */
                           var newPayment = Payment(
                             name: name.text,
-                            total: '0',
-                            paid: '0',
+                            total: 0,
+                            paid: 0,
                           );
 
                           insertPayment(newPayment);

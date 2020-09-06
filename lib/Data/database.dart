@@ -76,6 +76,11 @@ Future<void> updatePayment(String name) async {
       ['$name', '$name']);
 }
 
+percentage(String name) async {
+  final db = await database;
+  await db.rawQuery('SELECT (total * 100)');
+}
+
 Future<List<Debtor>> getDebtors() async {
   final Database db = await database;
 
@@ -119,8 +124,8 @@ Future<List<Payment>> getPayments(String name) async {
   return List.generate(maps.length, (i) {
     return Payment(
       name: maps[i]['name'],
-      total: maps[i]['total'].toString(),
-      paid: maps[i]['paid'].toString(),
+      total: maps[i]['total'],
+      paid: maps[i]['paid'],
     );
   });
 }

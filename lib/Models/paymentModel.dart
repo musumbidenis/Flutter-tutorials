@@ -1,5 +1,6 @@
 class Payment {
-  final String name, total, paid;
+  final String name;
+  final int total, paid;
 
   Payment({this.name, this.total, this.paid});
 
