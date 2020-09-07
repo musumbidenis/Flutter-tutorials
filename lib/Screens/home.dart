@@ -101,16 +101,18 @@ class _HomeState extends State<Home> {
                     topRight: Radius.circular(5.0),
                     topLeft: Radius.circular(5.0)),
               ),
-              elevation: 1.0,
+              elevation: 2.0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    vertical: 18.0, horizontal: 15.0),
+                    vertical: 30.0, horizontal: 15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Payment Progress:",
-                        style: TextStyle(
-                            fontSize: 17.0, fontWeight: FontWeight.bold)),
+                    Center(
+                      child: Text("Payment Progress:",
+                          style: TextStyle(
+                              fontSize: 17.0, fontWeight: FontWeight.bold)),
+                    ),
                     FutureBuilder(
                         future: getTotal(),
                         builder:
