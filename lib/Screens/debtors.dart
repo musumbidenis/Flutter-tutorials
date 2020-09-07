@@ -57,13 +57,17 @@ class _DebtorsState extends State<Debtors> {
                           border: InputBorder.none),
                     ),
                   )),
-                  IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 30.0,
-                      ),
-                      onPressed: () {})
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        right: 8.0, bottom: 18.0, left: 8.0),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                          size: 35.0,
+                        ),
+                        onPressed: () {}),
+                  )
                 ],
               ),
             ],
@@ -72,6 +76,7 @@ class _DebtorsState extends State<Debtors> {
       ),
       body: ListView(
         children: [
+          SizedBox(height: 5.0),
           FutureBuilder(
               future: getDebtors(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -94,7 +99,7 @@ class _DebtorsState extends State<Debtors> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 7.0, horizontal: 18.0),
                             child: Container(
-                                height: 95.0,
+                                height: 90.0,
                                 decoration: BoxDecoration(
                                     color: Colors.lightGreen[50],
                                     borderRadius: BorderRadius.only(
@@ -114,7 +119,7 @@ class _DebtorsState extends State<Debtors> {
                                     children: [
                                       CircleAvatar(
                                         backgroundColor: Colors.green[300],
-                                        radius: 30.0,
+                                        radius: 25.0,
                                         child: Text(
                                           snapshot.data[index].name[0]
                                               .toUpperCase(),

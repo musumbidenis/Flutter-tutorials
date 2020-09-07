@@ -48,7 +48,7 @@ class _DebtsState extends State<Debts> {
         children: [
           Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 18.0),
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
               decoration: BoxDecoration(

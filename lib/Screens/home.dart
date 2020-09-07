@@ -60,10 +60,10 @@ class _HomeState extends State<Home> {
               decoration: BoxDecoration(
                   color: Colors.lightGreen[50],
                   borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(5.0),
-                    topRight: const Radius.circular(5.0),
-                    bottomLeft: const Radius.circular(5.0),
-                    bottomRight: const Radius.circular(5.0),
+                    topLeft: const Radius.circular(9.0),
+                    topRight: const Radius.circular(9.0),
+                    bottomLeft: const Radius.circular(9.0),
+                    bottomRight: const Radius.circular(9.0),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -96,10 +96,10 @@ class _HomeState extends State<Home> {
               color: Colors.lightGreen[50],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5.0),
-                    bottomRight: Radius.circular(5.0),
-                    topRight: Radius.circular(5.0),
-                    topLeft: Radius.circular(5.0)),
+                    bottomLeft: Radius.circular(9.0),
+                    bottomRight: Radius.circular(9.0),
+                    topRight: Radius.circular(9.0),
+                    topLeft: Radius.circular(9.0)),
               ),
               elevation: 2.0,
               child: Padding(
