@@ -21,7 +21,7 @@ Future<Database> createDatabase() async {
   String dbPath = await getDatabasesPath();
 
   return await openDatabase(
-    join(dbPath, 'madeni2.db'),
+    join(dbPath, 'madeni6.db'),
     version: 1,
     onCreate: (Database database, int version) async {
       print("Creating tables");
@@ -30,7 +30,7 @@ Future<Database> createDatabase() async {
         "CREATE TABLE debtors(name TEXT PRIMARY KEY, phone INTEGER)",
       );
       await database.execute(
-        "CREATE TABLE debts(debtId INTEGER PRIMARY KEY, name TEXT, debt TEXT, amount INTEGER, FOREIGN KEY(name) REFERENCES debtors(name))",
+        "CREATE TABLE debts(debtId INTEGER PRIMARY KEY, name TEXT, debt TEXT, amount INTEGER, timestamp VARCHAR, FOREIGN KEY(name) REFERENCES debtors(name))",
       );
       await database.execute(
         "CREATE TABLE payments(name TEXT PRIMARY KEY, total INTEGER, paid INTEGER, FOREIGN KEY(name) REFERENCES debtors(name))",
@@ -106,10 +106,11 @@ Future<List<Debt>> getDebts(String name) async {
   // Convert the List<Map<String, dynamic> into a List<Debt>.
   return List.generate(maps.length, (i) {
     var result = Debt(
-      name: maps[i]['name'],
-      debt: maps[i]['debt'],
-      amount: maps[i]['amount'].toString(),
-    );
+        name: maps[i]['name'],
+        debt: maps[i]['debt'],
+        amount: maps[i]['amount'].toString(),
+        timestamp: maps[i]['timestamp']);
+    print(maps);
     return result;
   });
 }

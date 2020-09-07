@@ -2,6 +2,7 @@ import 'package:demo/Data/data.dart';
 import 'package:demo/Screens/screens.dart';
 import 'package:demo/Models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:platform_alert_dialog/platform_alert_dialog.dart';
 
 class Debtors extends StatefulWidget {
@@ -243,12 +244,21 @@ class _DebtorsState extends State<Debtors> {
                                                         var form2 = _formKey2
                                                             .currentState;
                                                         if (form2.validate()) {
+                                                          var now =
+                                                              DateTime.now();
+                                                          var timestamp =
+                                                              DateFormat
+                                                                      .yMMMEd()
+                                                                  .format(now);
+
                                                           var newDebt = Debt(
                                                             name: snapshot
                                                                 .data[index]
                                                                 .name,
                                                             debt: debt.text,
                                                             amount: amount.text,
+                                                            timestamp:
+                                                                timestamp,
                                                           );
 
                                                           insertDebt(newDebt);

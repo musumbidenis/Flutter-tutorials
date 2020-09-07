@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     createDatabase();
+    getTotal();
     greeting();
   }
 
@@ -57,6 +58,7 @@ class _HomeState extends State<Home> {
             padding:
                 const EdgeInsets.only(bottom: 15.0, right: 30.0, left: 30.0),
             child: Container(
+              padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   color: Colors.lightGreen[50],
                   borderRadius: BorderRadius.only(
@@ -77,11 +79,11 @@ class _HomeState extends State<Home> {
                 },
                 child: ListTile(
                   title: Text(
-                    'Check out the debts owed',
+                    'Check out debts owed',
                     style: TextStyle(fontSize: 18.0),
                   ),
                   leading: Icon(
-                    Icons.monetization_on,
+                    Icons.check_box,
                     size: 30.0,
                   ),
                   trailing: Icon(Icons.arrow_forward),
