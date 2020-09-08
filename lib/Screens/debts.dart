@@ -157,7 +157,6 @@ class _DebtsState extends State<Debts> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 15.0),
                           child: Container(
-                            height: 85.0,
                             decoration: BoxDecoration(
                                 color: Colors.lightGreen[50],
                                 borderRadius: BorderRadius.only(
@@ -171,27 +170,27 @@ class _DebtsState extends State<Debts> {
                                     color: Colors.grey[300],
                                   ),
                                 ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: Icon(
-                                  Icons.error_outline,
-                                  size: 40.0,
-                                  color: Colors.red,
-                                ),
-                                title: Text(
-                                    snapshot.data[index].debt.toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                    )),
-                                subtitle: Text(snapshot.data[index].timestamp),
-                                trailing: Text(
-                                  "Kshs " + snapshot.data[index].amount,
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red),
-                                ),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.error_outline,
+                                size: 35.0,
+                                color: Colors.red,
+                              ),
+                              title:
+                                  Text(snapshot.data[index].debt.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      )),
+                              subtitle: Text(
+                                snapshot.data[index].timestamp,
+                                style: TextStyle(fontSize: 12.0),
+                              ),
+                              trailing: Text(
+                                "Kshs " + snapshot.data[index].amount,
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
                               ),
                             ),
                           ),
