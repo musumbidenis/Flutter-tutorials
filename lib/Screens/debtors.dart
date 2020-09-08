@@ -35,7 +35,7 @@ class _DebtorsState extends State<Debtors> {
         backgroundColor: Colors.lightGreen[100],
         title: Text(
           "Madeni App",
-          style: TextStyle(fontSize: 25.0, color: Colors.grey[800]),
+          style: TextStyle(fontSize: 20.0, color: Colors.grey[800]),
         ),
         elevation: 0.0,
         centerTitle: true,
@@ -60,12 +60,12 @@ class _DebtorsState extends State<Debtors> {
                   )),
                   Padding(
                     padding: const EdgeInsets.only(
-                        right: 8.0, bottom: 18.0, left: 8.0),
+                        right: 0.0, bottom: 18.0, left: 8.0),
                     child: IconButton(
                         icon: Icon(
                           Icons.search,
                           color: Colors.white,
-                          size: 35.0,
+                          size: 28.0,
                         ),
                         onPressed: () {}),
                   )
@@ -98,9 +98,9 @@ class _DebtorsState extends State<Debtors> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 7.0, horizontal: 18.0),
+                                vertical: 4.0, horizontal: 18.0),
                             child: Container(
-                                height: 90.0,
+                                height: 75.0,
                                 decoration: BoxDecoration(
                                     color: Colors.lightGreen[50],
                                     borderRadius: BorderRadius.only(
@@ -111,7 +111,7 @@ class _DebtorsState extends State<Debtors> {
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey[800],
+                                        color: Colors.grey[300],
                                       ),
                                     ]),
                                 child: Padding(
@@ -120,13 +120,13 @@ class _DebtorsState extends State<Debtors> {
                                     children: [
                                       CircleAvatar(
                                         backgroundColor: Colors.green[300],
-                                        radius: 25.0,
+                                        radius: 20.0,
                                         child: Text(
                                           snapshot.data[index].name[0]
                                               .toUpperCase(),
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 28.0),
+                                              fontSize: 18.0),
                                         ),
                                       ),
                                       Padding(
@@ -140,13 +140,13 @@ class _DebtorsState extends State<Debtors> {
                                             Text(
                                               snapshot.data[index].name
                                                   .toUpperCase(),
-                                              style: TextStyle(fontSize: 17.0),
+                                              style: TextStyle(fontSize: 15.0),
                                             ),
                                             Text(
                                               "0" +
                                                   snapshot.data[index].phone
                                                       .toUpperCase(),
-                                              style: TextStyle(fontSize: 12.0),
+                                              style: TextStyle(fontSize: 11.0),
                                             ),
                                           ],
                                         ),
@@ -155,7 +155,7 @@ class _DebtorsState extends State<Debtors> {
                                       IconButton(
                                         icon: Icon(
                                           Icons.add_box,
-                                          size: 31.0,
+                                          size: 22.0,
                                           color: Colors.green[300],
                                         ),
                                         onPressed: () {
@@ -189,7 +189,8 @@ class _DebtorsState extends State<Debtors> {
                                                             focusedBorder: UnderlineInputBorder(
                                                                 borderSide: BorderSide(
                                                                     color: Colors
-                                                                        .pinkAccent)),
+                                                                            .green[
+                                                                        300])),
                                                           ),
                                                           // ignore: missing_return
                                                           validator:
@@ -218,7 +219,8 @@ class _DebtorsState extends State<Debtors> {
                                                             focusedBorder: UnderlineInputBorder(
                                                                 borderSide: BorderSide(
                                                                     color: Colors
-                                                                        .pinkAccent)),
+                                                                            .green[
+                                                                        300])),
                                                           ),
                                                           keyboardType:
                                                               TextInputType
@@ -267,7 +269,7 @@ class _DebtorsState extends State<Debtors> {
                                                               .name);
 
                                                           Navigator.pop(
-                                                              context);
+                                                              context, true);
 
                                                           debt.clear();
                                                           amount.clear();
@@ -318,7 +320,7 @@ class _DebtorsState extends State<Debtors> {
                               ),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.pinkAccent)),
+                                      BorderSide(color: Colors.green[300])),
                             ),
                             // ignore: missing_return
                             validator: (String value) {
@@ -339,7 +341,7 @@ class _DebtorsState extends State<Debtors> {
                               ),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.pinkAccent)),
+                                      BorderSide(color: Colors.green[300])),
                             ),
                             keyboardType: TextInputType.phone,
                             // ignore: missing_return
@@ -367,7 +369,7 @@ class _DebtorsState extends State<Debtors> {
                           );
                           insertDebtor(newDebtor);
 
-                          /*Add new payment record fro debtor to db */
+                          /*Add new payment record from debtor to db */
                           var newPayment = Payment(
                             name: name.text,
                             total: 0,
@@ -376,7 +378,10 @@ class _DebtorsState extends State<Debtors> {
 
                           insertPayment(newPayment);
 
-                          Navigator.pop(context);
+                          Navigator.of(context).pop();
+                          setState(() {
+                            getDebtors();
+                          });
 
                           name.clear();
                           phone.clear();

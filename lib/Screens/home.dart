@@ -1,5 +1,4 @@
 import 'package:demo/Screens/screens.dart';
-// ignore: unused_import
 import 'package:demo/Data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -42,13 +41,13 @@ class _HomeState extends State<Home> {
               children: [
                 Icon(
                   Icons.wb_sunny,
-                  size: 80.0,
+                  size: 70.0,
                   color: Colors.green[300],
                 ),
                 SizedBox(width: 15.0),
                 Text(
                   greeting() + "\nChelsea",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -57,7 +56,6 @@ class _HomeState extends State<Home> {
             padding:
                 const EdgeInsets.only(bottom: 15.0, right: 30.0, left: 30.0),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   color: Colors.lightGreen[50],
                   borderRadius: BorderRadius.only(
@@ -68,7 +66,7 @@ class _HomeState extends State<Home> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[800],
+                      color: Colors.grey[300],
                     ),
                   ]),
               child: InkWell(
@@ -102,7 +100,7 @@ class _HomeState extends State<Home> {
                     topRight: Radius.circular(9.0),
                     topLeft: Radius.circular(9.0)),
               ),
-              elevation: 2.0,
+              elevation: 1.0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 30.0, horizontal: 15.0),
@@ -134,8 +132,8 @@ class _HomeState extends State<Home> {
                           }
                           return Center(
                             child: CircularPercentIndicator(
-                              radius: 150.0,
-                              lineWidth: 18.0,
+                              radius: 130.0,
+                              lineWidth: 15.0,
                               animation: true,
                               percent: percentage,
                               progressColor: percentage >= 0.5
@@ -143,7 +141,9 @@ class _HomeState extends State<Home> {
                                   : Colors.red,
                               center: Text(
                                 "Kshs " + paid.toString() + "\nPaid",
-                                style: TextStyle(fontSize: 20.0),
+                                style: TextStyle(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
                               ),
                               footer: Column(
                                 children: [

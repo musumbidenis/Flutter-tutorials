@@ -21,12 +21,12 @@ class _DebtsState extends State<Debts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen[200],
+      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[200],
+        backgroundColor: Colors.lightGreen[100],
         title: Text(
           "Debts",
-          style: TextStyle(fontSize: 25.0, color: Colors.grey[800]),
+          style: TextStyle(fontSize: 20.0, color: Colors.grey[800]),
         ),
         centerTitle: true,
         elevation: 0.0,
@@ -36,7 +36,7 @@ class _DebtsState extends State<Debts> {
             child: IconButton(
                 icon: Icon(
                   Icons.delete,
-                  size: 25.0,
+                  size: 20.0,
                   color: Colors.grey[800],
                 ),
                 onPressed: () {}),
@@ -60,7 +60,7 @@ class _DebtsState extends State<Debts> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[800],
+                      color: Colors.grey[300],
                     ),
                   ]),
               child: Column(
@@ -85,8 +85,8 @@ class _DebtsState extends State<Debts> {
                         }
                         return Center(
                           child: CircularPercentIndicator(
-                            radius: 150.0,
-                            lineWidth: 18.0,
+                            radius: 130.0,
+                            lineWidth: 15.0,
                             animation: true,
                             percent: percentage,
                             progressColor: percentage >= 0.5
@@ -97,7 +97,7 @@ class _DebtsState extends State<Debts> {
                                   snapshot.data[0].paid.toString() +
                                   "\n paid",
                               style: TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                                  fontSize: 15.0, fontWeight: FontWeight.bold),
                             ),
                             footer: Column(
                               children: [
@@ -168,7 +168,7 @@ class _DebtsState extends State<Debts> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey[800],
+                                    color: Colors.grey[300],
                                   ),
                                 ]),
                             child: Padding(
