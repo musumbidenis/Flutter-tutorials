@@ -12,7 +12,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String greeting() {
     var hour = DateTime.now().hour;
-    print(hour);
     if (hour < 12) {
       return 'Good Morning';
     }
@@ -119,15 +118,19 @@ class _HomeState extends State<Home> {
                         future: getTotal(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          var a = snapshot.data[0]['total'];
-                          var b = snapshot.data[0]['paid'];
-                          var c = a - b;
-                          var d = ((b / a) * 100) / 100;
-                          double percentage;
-                          if (b == 0) {
+                          var total = snapshot.data[0]['total'] == null
+                              ? 0
+                              : snapshot.data[0]['total'];
+                          var paid = snapshot.data[0]['paid'] == null
+                              ? 0
+                              : snapshot.data[0]['paid'];
+                          var difference = total - paid;
+                          double percentage = ((paid / total) * 100) / 100;
+
+                          if (paid == 0) {
                             percentage = 0.000001;
                           } else {
-                            percentage = d.toDouble();
+                            percentage = percentage.toDouble();
                           }
                           return Center(
                             child: CircularPercentIndicator(
@@ -139,9 +142,7 @@ class _HomeState extends State<Home> {
                                   ? Colors.green[300]
                                   : Colors.red,
                               center: Text(
-                                "Kshs " +
-                                    snapshot.data[0]['paid'].toString() +
-                                    "\nPaid",
+                                "Kshs " + paid.toString() + "\nPaid",
                                 style: TextStyle(fontSize: 20.0),
                               ),
                               footer: Column(
@@ -159,14 +160,12 @@ class _HomeState extends State<Home> {
                                         children: [
                                           TextSpan(
                                               text: "Kshs " +
-                                                  c.toString() +
+                                                  difference.toString() +
                                                   " / ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           TextSpan(
-                                              text: "Kshs " +
-                                                  snapshot.data[0]['total']
-                                                      .toString())
+                                              text: "Kshs " + total.toString())
                                         ]),
                                   ),
                                 ],
