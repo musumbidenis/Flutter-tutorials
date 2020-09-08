@@ -15,7 +15,6 @@ class _DebtorsState extends State<Debtors> {
   void initState() {
     super.initState();
     getDebtors();
-    getTotal();
   }
 
   GlobalKey<FormState> _formKey = GlobalKey();
@@ -81,7 +80,20 @@ class _DebtorsState extends State<Debtors> {
           FutureBuilder(
               future: getDebtors(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.data.length == 0 || snapshot.data.length == null) {
+                  return Padding(
+                    padding: const EdgeInsets.all(100.0),
+                    child: Center(
+                      child: Text(
+                        "No debtors found",
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
+                      ),
+                    ),
+                  );
+                } else {
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),

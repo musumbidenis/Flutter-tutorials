@@ -147,7 +147,19 @@ class _DebtsState extends State<Debts> {
           FutureBuilder(
               future: getDebts(widget.name),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.data.length == 0 || snapshot.data.length == null) {
+                  return Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(80.0),
+                    child: Text(
+                      "No debt records found",
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red),
+                    ),
+                  ));
+                } else {
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -173,17 +185,17 @@ class _DebtsState extends State<Debts> {
                             child: ListTile(
                               leading: Icon(
                                 Icons.error_outline,
-                                size: 35.0,
+                                size: 30.0,
                                 color: Colors.red,
                               ),
                               title:
                                   Text(snapshot.data[index].debt.toUpperCase(),
                                       style: TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 14.0,
                                       )),
                               subtitle: Text(
                                 snapshot.data[index].timestamp,
-                                style: TextStyle(fontSize: 12.0),
+                                style: TextStyle(fontSize: 10.0),
                               ),
                               trailing: Text(
                                 "Kshs " + snapshot.data[index].amount,

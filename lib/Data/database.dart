@@ -21,7 +21,7 @@ Future<Database> createDatabase() async {
   String dbPath = await getDatabasesPath();
 
   return await openDatabase(
-    join(dbPath, 'madeni6.db'),
+    join(dbPath, 'madeni7.db'),
     version: 1,
     onCreate: (Database database, int version) async {
       print("Creating tables");
@@ -86,7 +86,7 @@ Future<List<Debtor>> getDebtors() async {
 
   // Query the table for all The Debtors.
   final List<Map<String, dynamic>> maps = await db.query('debtors');
-
+  print(maps);
   // Convert the List<Map<String, dynamic> into a List<Debtor>.
   return List.generate(maps.length, (i) {
     return Debtor(
