@@ -150,13 +150,11 @@ class _DebtsState extends State<Debts> {
                 if (snapshot.data.length == 0 || snapshot.data.length == null) {
                   return Center(
                       child: Padding(
-                    padding: const EdgeInsets.all(80.0),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * .2),
                     child: Text(
                       "No debt records found",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red),
+                      style: TextStyle(fontSize: 21.0),
                     ),
                   ));
                 } else {
