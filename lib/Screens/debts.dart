@@ -43,7 +43,10 @@ class _DebtsState extends State<Debts> {
                     size: 20.0,
                     color: Colors.grey[800],
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    delete(widget.name);
+                    Navigator.pop(context);
+                  }),
             )
           ],
         ),

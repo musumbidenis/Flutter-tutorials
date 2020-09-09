@@ -104,7 +104,11 @@ class _DebtorsState extends State<Debtors> {
                                 MaterialPageRoute(
                                     builder: (context) => Debts(
                                           name: "${snapshot.data[index].name}",
-                                        )));
+                                        ))).then((value) {
+                              setState(() {
+                                getDebtors();
+                              });
+                            });
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(

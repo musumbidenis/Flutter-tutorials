@@ -69,11 +69,6 @@ Future<void> insertPayment(Payment payment) async {
   );
 }
 
-percentage(String name) async {
-  final db = await database;
-  await db.rawQuery('SELECT (total * 100)');
-}
-
 Future<List<Debtor>> getDebtors() async {
   final Database db = await database;
 
@@ -116,6 +111,7 @@ Future<List<Payment>> getPayments(String name) async {
       'SELECT name, total, paid FROM payments WHERE name = ?', ['$name']);
 
   // Convert the List<Map<String, dynamic> into a List<Debtor>.
+  print(maps);
   return List.generate(maps.length, (i) {
     return Payment(
       name: maps[i]['name'],
@@ -144,8 +140,17 @@ Future<void> updatePayment(String name) async {
 Future<void> reduceDebt(String name, String amount) async {
   final db = await database;
   await db.rawUpdate(
-      'UPDATE payments SET paid = $amount WHERE name = ?', ['$name']);
+      'UPDATE payments SET paid = $amount + (SELECT paid FROM payments WHERE name = ?) WHERE name = ?',
+      ['$name', '$name']);
 }
+
+Future<void> delete(String name) async {
+  final db = await database;
+  await db.rawDelete('DELETE FROM debtors WHERE name = ?', ['$name']);
+  await db.rawDelete('DELETE FROM debts WHERE name = ?', ['$name']);
+  await db.rawDelete('DELETE FROM payments WHERE name = ?', ['$name']);
+}
+
 // Future<List> debts() async {
 //   final Database db = await database;
 //   var result = await db.query('debts');
