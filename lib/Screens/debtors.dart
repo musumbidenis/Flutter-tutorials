@@ -87,7 +87,7 @@ class _DebtorsState extends State<Debtors> {
                     child: Center(
                       child: Text(
                         "No debtors found",
-                        style: TextStyle(fontSize: 21.0),
+                        style: TextStyle(fontSize: 20.0),
                       ),
                     ),
                   );

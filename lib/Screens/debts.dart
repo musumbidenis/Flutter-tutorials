@@ -164,7 +164,7 @@ class _DebtsState extends State<Debts> {
                           top: MediaQuery.of(context).size.height * .2),
                       child: Text(
                         "No debt records found",
-                        style: TextStyle(fontSize: 21.0),
+                        style: TextStyle(fontSize: 20.0),
                       ),
                     ));
                   } else {

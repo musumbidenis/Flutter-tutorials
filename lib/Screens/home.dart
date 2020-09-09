@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(width: 15.0),
                 Text(
-                  greeting() + "\nChelsea",
+                  greeting() + "\nCreditor",
                   style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                 )
               ],
@@ -72,7 +72,13 @@ class _HomeState extends State<Home> {
               child: InkWell(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Debtors()));
+                          MaterialPageRoute(builder: (context) => Debtors()))
+                      .then((value) {
+                    setState(() {
+                      getTotal();
+                      greeting();
+                    });
+                  });
                 },
                 child: ListTile(
                   title: Text(
