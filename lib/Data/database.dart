@@ -69,13 +69,6 @@ Future<void> insertPayment(Payment payment) async {
   );
 }
 
-Future<void> updatePayment(String name) async {
-  final db = await database;
-  await db.rawUpdate(
-      '''UPDATE payments SET total = (SELECT SUM(amount) as total FROM debts WHERE name = ?) WHERE name = ?''',
-      ['$name', '$name']);
-}
-
 percentage(String name) async {
   final db = await database;
   await db.rawQuery('SELECT (total * 100)');
@@ -141,6 +134,18 @@ getTotal() async {
   return maps.toList();
 }
 
+Future<void> updatePayment(String name) async {
+  final db = await database;
+  await db.rawUpdate(
+      '''UPDATE payments SET total = (SELECT SUM(amount) as total FROM debts WHERE name = ?) WHERE name = ?''',
+      ['$name', '$name']);
+}
+
+Future<void> reduceDebt(String name, String amount) async {
+  final db = await database;
+  await db.rawUpdate(
+      'UPDATE payments SET paid = $amount WHERE name = ?', ['$name']);
+}
 // Future<List> debts() async {
 //   final Database db = await database;
 //   var result = await db.query('debts');

@@ -202,8 +202,8 @@ class _DebtorsState extends State<Debtors> {
                                                                             .green[
                                                                         300])),
                                                           ),
-                                                          // ignore: missing_return
                                                           validator:
+                                                              // ignore: missing_return
                                                               (String value) {
                                                             if (value.isEmpty) {
                                                               return "DEBT field cannot be blank";
@@ -235,8 +235,8 @@ class _DebtorsState extends State<Debtors> {
                                                           keyboardType:
                                                               TextInputType
                                                                   .phone,
-                                                          // ignore: missing_return
                                                           validator:
+                                                              // ignore: missing_return
                                                               (String value) {
                                                             if (value.isEmpty) {
                                                               return "AMOUNT field cannot be blank";
