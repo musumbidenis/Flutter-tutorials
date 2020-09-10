@@ -1,6 +1,6 @@
-import 'package:madeniapp/Data/data.dart';
-import 'package:madeniapp/Screens/screens.dart';
-import 'package:madeniapp/Models/models.dart';
+import 'package:demo/Data/data.dart';
+import 'package:demo/Screens/screens.dart';
+import 'package:demo/Models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_alert_dialog/platform_alert_dialog.dart';

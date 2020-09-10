@@ -1,5 +1,5 @@
-import 'package:madeniapp/Screens/screens.dart';
-import 'package:madeniapp/Data/data.dart';
+import 'package:demo/Screens/screens.dart';
+import 'package:demo/Data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 

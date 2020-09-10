@@ -1,4 +1,4 @@
-import 'package:madeniapp/Models/models.dart';
+import 'package:demo/Models/models.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
