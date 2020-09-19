@@ -1,4 +1,4 @@
-import 'package:demo/Data/data.dart';
+import 'package:demo/Repository/database.dart';
 import 'package:demo/Screens/screens.dart';
 import 'package:demo/Models/models.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +17,7 @@ class _DebtorsState extends State<Debtors> {
     getDebtors();
   }
 
+  /*Form keys */
   GlobalKey<FormState> _formKey = GlobalKey();
   GlobalKey<FormState> _formKey2 = GlobalKey();
 
@@ -80,6 +81,7 @@ class _DebtorsState extends State<Debtors> {
           FutureBuilder(
               future: getDebtors(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
+                /*Checks the snapshot length */
                 if (snapshot.data.length == 0 || snapshot.data.length == null) {
                   return Padding(
                     padding: EdgeInsets.only(
@@ -91,6 +93,8 @@ class _DebtorsState extends State<Debtors> {
                       ),
                     ),
                   );
+
+                  /*Return a listview of the debtors where snapshot length > 0 */
                 } else {
                   return ListView.builder(
                       shrinkWrap: true,
@@ -257,9 +261,12 @@ class _DebtorsState extends State<Debtors> {
                                                       actionType:
                                                           ActionType.Preferred,
                                                       onPressed: () {
+                                                        /*Validate the form before submission */
                                                         var form2 = _formKey2
                                                             .currentState;
+
                                                         if (form2.validate()) {
+                                                          /*Gets the current timestamp */
                                                           var now =
                                                               DateTime.now();
                                                           var timestamp =
@@ -267,6 +274,7 @@ class _DebtorsState extends State<Debtors> {
                                                                       .yMMMEd()
                                                                   .format(now);
 
+                                                          /*Initializes new debt data */
                                                           var newDebt = Debt(
                                                             name: snapshot
                                                                 .data[index]
@@ -277,14 +285,18 @@ class _DebtorsState extends State<Debtors> {
                                                                 timestamp,
                                                           );
 
+                                                          /*Inserts new debt to db */
                                                           insertDebt(newDebt);
+                                                          /*Updates payment records for debtor */
                                                           updatePayment(snapshot
                                                               .data[index]
                                                               .name);
 
+                                                          /*Returns to the debtors screen */
                                                           Navigator.pop(
-                                                              context, true);
+                                                              context);
 
+                                                          /*Clears textform fields */
                                                           debt.clear();
                                                           amount.clear();
                                                         }
@@ -376,27 +388,32 @@ class _DebtorsState extends State<Debtors> {
                       onPressed: () {
                         var form = _formKey.currentState;
                         if (form.validate()) {
-                          /*Add Debtors details to db */
+                          /*Initializes new debtor data */
                           var newDebtor = Debtor(
                             name: name.text,
                             phone: phone.text,
                           );
+
+                          /*Inserts new debtor to db */
                           insertDebtor(newDebtor);
 
-                          /*Add new payment record from debtor to db */
+                          /*initializes new payment record data for debtor */
                           var newPayment = Payment(
                             name: name.text,
                             total: 0,
                             paid: 0,
                           );
 
+                          /*Inserts new payment record for debtor to db */
                           insertPayment(newPayment);
 
+                          /*Returns to the debtors screen */
                           Navigator.of(context).pop();
                           setState(() {
                             getDebtors();
                           });
 
+                          /*Clears textform fields */
                           name.clear();
                           phone.clear();
                         }

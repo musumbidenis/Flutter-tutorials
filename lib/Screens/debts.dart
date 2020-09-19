@@ -1,4 +1,4 @@
-import 'package:demo/Data/data.dart';
+import 'package:demo/Repository/database.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:platform_alert_dialog/platform_alert_dialog.dart';
@@ -12,6 +12,8 @@ class Debts extends StatefulWidget {
 }
 
 class _DebtsState extends State<Debts> {
+  int balance;
+  /*Form key && Textediting controller */
   GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController amount = TextEditingController();
 
@@ -81,16 +83,21 @@ class _DebtsState extends State<Debts> {
                         future: getPayments(widget.name),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          var a = snapshot.data[0].total;
-                          var b = snapshot.data[0].paid;
-                          var c = a - b;
-                          var d = ((b / a) * 100) / 100;
-                          double percentage;
-                          if (b == 0) {
-                            percentage = 0.000001;
+                          var total = snapshot.data[0].total;
+                          var paid = snapshot.data[0].paid;
+
+                          /*Gets the remaining balance */
+                          balance = total - paid;
+
+                          /*Gets the payment percentage for debtor */
+                          var percentage;
+                          if (paid == 0) {
+                            percentage = 0.001;
                           } else {
-                            percentage = d.toDouble();
+                            percentage = ((paid / total) * 100) / 100;
                           }
+
+                          /*Returns the progress indicator widget */
                           return Center(
                             child: CircularPercentIndicator(
                               radius: 130.0,
@@ -130,7 +137,7 @@ class _DebtsState extends State<Debts> {
                                                 children: [
                                                   TextSpan(
                                                       text: "Kshs" +
-                                                          c.toString() +
+                                                          balance.toString() +
                                                           " / ",
                                                       style: TextStyle(
                                                           fontWeight:
@@ -156,6 +163,7 @@ class _DebtsState extends State<Debts> {
             FutureBuilder(
                 future: getDebts(widget.name),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  /*Checks the snapshot length */
                   if (snapshot.data.length == 0 ||
                       snapshot.data.length == null) {
                     return Center(
@@ -167,6 +175,8 @@ class _DebtsState extends State<Debts> {
                         style: TextStyle(fontSize: 20.0),
                       ),
                     ));
+
+                    /*Return a listview of the debts where snapshot length > 0 */
                   } else {
                     return ListView.builder(
                         shrinkWrap: true,
@@ -230,6 +240,7 @@ class _DebtsState extends State<Debts> {
         ));
   }
 
+/*Shows the reduce debt form modal */
   onPressed() async {
     showDialog<void>(
         context: context,
@@ -275,16 +286,57 @@ class _DebtsState extends State<Debts> {
         });
   }
 
+/*Handles payment records update */
   handleUpdate() {
     var form = _formKey.currentState;
     if (form.validate()) {
+      /*Updates payment records && returns to debts screen */
       reduceDebt(widget.name, amount.text);
-      Navigator.of(context).pop();
-      setState(() {
-        getPayments(widget.name);
-      });
 
+      /*Checks if the balance == 0 */
+      if (balance == 0) {
+        handleDelete();
+      } else {
+        Navigator.of(context).pop();
+
+        /*Refreshes the payment progress UI */
+        setState(() {
+          getPayments(widget.name);
+        });
+      }
+
+      /*Clears textform field */
       amount.clear();
     }
+  }
+
+/*Handles deletion confirmation */
+  handleDelete() async {
+    showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return PlatformAlertDialog(
+              title: Center(child: Text('Delete Action')),
+              content: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  Text(widget.name +
+                      " has completed his debts payment, do you want to delete the records?")
+                ],
+              )),
+              actions: <Widget>[
+                PlatformDialogAction(
+                    child: Text('YES'),
+                    actionType: ActionType.Preferred,
+                    onPressed: () {
+                      delete(widget.name);
+                    }),
+                PlatformDialogAction(
+                  child: Text('CANCEL'),
+                  actionType: ActionType.Preferred,
+                  onPressed: handleUpdate,
+                )
+              ]);
+        });
   }
 }

@@ -1,5 +1,5 @@
 import 'package:demo/Screens/screens.dart';
-import 'package:demo/Data/data.dart';
+import 'package:demo/Repository/database.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -9,17 +9,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String greeting() {
-    var hour = DateTime.now().hour;
-    if (hour < 12) {
-      return 'Good Morning';
-    }
-    if (hour < 17) {
-      return 'Good Afternoon';
-    }
-    return 'Good Evening';
-  }
-
   @override
   void initState() {
     super.initState();
@@ -122,20 +111,26 @@ class _HomeState extends State<Home> {
                         future: getTotal(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
+                          /*Checks if the snapshot returns null */
                           var total = snapshot.data[0]['total'] == null
                               ? 0
                               : snapshot.data[0]['total'];
                           var paid = snapshot.data[0]['paid'] == null
                               ? 0
                               : snapshot.data[0]['paid'];
-                          var difference = total - paid;
-                          double percentage = ((paid / total) * 100) / 100;
 
+                          /*Gets the remaining balance */
+                          var difference = total - paid;
+
+                          /*Gets the total payment percentage */
+                          var percentage;
                           if (paid == 0) {
-                            percentage = 0.000001;
+                            percentage = 0.001;
                           } else {
-                            percentage = percentage.toDouble();
+                            percentage = ((paid / total) * 100) / 100;
                           }
+
+                          /*Returns the progress indicator widget */
                           return Center(
                             child: CircularPercentIndicator(
                               radius: 130.0,
