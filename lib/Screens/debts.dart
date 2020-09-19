@@ -38,18 +38,15 @@ class _DebtsState extends State<Debts> {
           elevation: 0.0,
           actions: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
                   icon: Icon(
                     Icons.delete,
                     size: 20.0,
                     color: Colors.grey[800],
                   ),
-                  onPressed: () {
-                    delete(widget.name);
-                    Navigator.pop(context);
-                  }),
-            )
+                  onPressed: handleDelete,
+                ))
           ],
         ),
         body: ListView(
@@ -293,17 +290,12 @@ class _DebtsState extends State<Debts> {
       /*Updates payment records && returns to debts screen */
       reduceDebt(widget.name, amount.text);
 
-      /*Checks if the balance == 0 */
-      if (balance == 0) {
-        handleDelete();
-      } else {
-        Navigator.of(context).pop();
+      /*Refreshes the payment progress UI */
+      setState(() {
+        getPayments(widget.name);
+      });
 
-        /*Refreshes the payment progress UI */
-        setState(() {
-          getPayments(widget.name);
-        });
-      }
+      Navigator.of(context).pop();
 
       /*Clears textform field */
       amount.clear();
@@ -320,8 +312,22 @@ class _DebtsState extends State<Debts> {
               content: SingleChildScrollView(
                   child: Column(
                 children: [
-                  Text(widget.name +
-                      " has completed his debts payment, do you want to delete the records?")
+                  RichText(
+                    text: TextSpan(
+                        style: TextStyle(color: Colors.grey[800]),
+                        children: [
+                          TextSpan(
+                              text: "Are you sure, you want to delete all ",
+                              style: TextStyle(fontSize: 18.0)),
+                          TextSpan(
+                              text: widget.name.toUpperCase() + "'s ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18.0)),
+                          TextSpan(
+                              text: "debt records?",
+                              style: TextStyle(fontSize: 18.0)),
+                        ]),
+                  ),
                 ],
               )),
               actions: <Widget>[
@@ -330,12 +336,14 @@ class _DebtsState extends State<Debts> {
                     actionType: ActionType.Preferred,
                     onPressed: () {
                       delete(widget.name);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
                     }),
                 PlatformDialogAction(
-                  child: Text('CANCEL'),
-                  actionType: ActionType.Preferred,
-                  onPressed: handleUpdate,
-                )
+                    child: Text('CANCEL'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })
               ]);
         });
   }
