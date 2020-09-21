@@ -318,11 +318,13 @@ class _DebtorsState extends State<Debtors> {
           SizedBox(height: 50.0),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+          label: Text("Add debtor"),
           backgroundColor: Colors.green[300],
           tooltip: 'Add new debtor',
-          child: Icon(
-            Icons.add,
+          icon: Icon(
+            Icons.add_circle,
+            size: 30.0,
           ),
           onPressed: () {
             showDialog<void>(
@@ -419,11 +421,17 @@ class _DebtorsState extends State<Debtors> {
                         }
                       },
                     ),
+                    PlatformDialogAction(
+                        child: Text('CANCEL'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        })
                   ],
                 );
               },
             );
           }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
