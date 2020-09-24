@@ -40,43 +40,43 @@ class _DebtorsState extends State<Debtors> {
         ),
         elevation: 0.0,
         centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    margin: EdgeInsets.only(left: 12.0, bottom: 18.0),
-                    decoration: BoxDecoration(
-                        color: Colors.lightGreen[50],
-                        borderRadius: BorderRadius.circular(24.0)),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          hintText: "Search",
-                          contentPadding: const EdgeInsets.only(left: 24.0),
-                          border: InputBorder.none),
-                    ),
-                  )),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        right: 0.0, bottom: 18.0, left: 8.0),
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.white,
-                          size: 28.0,
-                        ),
-                        onPressed: () {
-                          searchW(search.text);
-                        }),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: Size.fromHeight(60.0),
+        //   child: Column(
+        //     children: [
+        //       Row(
+        //         children: [
+        //           Expanded(
+        //               child: Container(
+        //             margin: EdgeInsets.only(left: 12.0, bottom: 18.0),
+        //             decoration: BoxDecoration(
+        //                 color: Colors.lightGreen[50],
+        //                 borderRadius: BorderRadius.circular(24.0)),
+        //             child: TextFormField(
+        //               decoration: InputDecoration(
+        //                   hintText: "Search",
+        //                   contentPadding: const EdgeInsets.only(left: 24.0),
+        //                   border: InputBorder.none),
+        //             ),
+        //           )),
+        //           Padding(
+        //             padding: const EdgeInsets.only(
+        //                 right: 0.0, bottom: 18.0, left: 8.0),
+        //             child: IconButton(
+        //                 icon: Icon(
+        //                   Icons.search,
+        //                   color: Colors.white,
+        //                   size: 28.0,
+        //                 ),
+        //                 onPressed: () {
+        //                   searchW(search.text);
+        //                 }),
+        //           )
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
       body: ListView(
         children: [

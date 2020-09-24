@@ -149,7 +149,7 @@ Future searchW(String searchWord) async {
   final db = await database;
 
   final List<Map<String, dynamic>> maps = await db
-      .rawQuery("SELECT * FROM debtors where name = ?", ['$searchWord']);
+      .rawQuery("SELECT * FROM debtors WHERE name = ?", ['%$searchWord%']);
   print(maps);
   return maps.toList();
 }
