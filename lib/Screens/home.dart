@@ -42,16 +42,15 @@ class _HomeState extends State<Home> {
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(bottom: 15.0, right: 30.0, left: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.lightGreen[50],
                   borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(9.0),
-                    topRight: const Radius.circular(9.0),
-                    bottomLeft: const Radius.circular(9.0),
-                    bottomRight: const Radius.circular(9.0),
+                    topLeft: const Radius.circular(5.0),
+                    topRight: const Radius.circular(5.0),
+                    bottomLeft: const Radius.circular(5.0),
+                    bottomRight: const Radius.circular(5.0),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -85,15 +84,15 @@ class _HomeState extends State<Home> {
           ),
           Padding(
             padding:
-                const EdgeInsets.only(bottom: 15.0, right: 30.0, left: 30.0),
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
             child: Card(
               color: Colors.lightGreen[50],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(9.0),
-                    bottomRight: Radius.circular(9.0),
-                    topRight: Radius.circular(9.0),
-                    topLeft: Radius.circular(9.0)),
+                    bottomLeft: Radius.circular(5.0),
+                    bottomRight: Radius.circular(5.0),
+                    topRight: Radius.circular(5.0),
+                    topLeft: Radius.circular(5.0)),
               ),
               elevation: 1.0,
               child: Padding(

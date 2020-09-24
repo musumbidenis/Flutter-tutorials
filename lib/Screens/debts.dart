@@ -59,10 +59,10 @@ class _DebtsState extends State<Debts> {
               decoration: BoxDecoration(
                   color: Colors.lightGreen[50],
                   borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(9.0),
-                    topRight: const Radius.circular(9.0),
-                    bottomLeft: const Radius.circular(9.0),
-                    bottomRight: const Radius.circular(9.0),
+                    topLeft: const Radius.circular(5.0),
+                    topRight: const Radius.circular(5.0),
+                    bottomLeft: const Radius.circular(5.0),
+                    bottomRight: const Radius.circular(5.0),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -131,7 +131,7 @@ class _DebtsState extends State<Debts> {
                                                   color: Colors.grey[800]),
                                               children: [
                                                 TextSpan(
-                                                    text: "Kshs" +
+                                                    text: "Kshs " +
                                                         balance.toString() +
                                                         " / ",
                                                     style: TextStyle(
@@ -184,10 +184,10 @@ class _DebtsState extends State<Debts> {
                             decoration: BoxDecoration(
                                 color: Colors.lightGreen[50],
                                 borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(9.0),
-                                  topRight: const Radius.circular(9.0),
-                                  bottomLeft: const Radius.circular(9.0),
-                                  bottomRight: const Radius.circular(9.0),
+                                  topLeft: const Radius.circular(5.0),
+                                  topRight: const Radius.circular(5.0),
+                                  bottomLeft: const Radius.circular(5.0),
+                                  bottomRight: const Radius.circular(5.0),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -322,15 +322,11 @@ class _DebtsState extends State<Debts> {
                         style: TextStyle(color: Colors.grey[800]),
                         children: [
                           TextSpan(
-                              text: "Are you sure, you want to delete all ",
-                              style: TextStyle(fontSize: 18.0)),
+                              text: "Are you sure, you want to delete all of "),
                           TextSpan(
                               text: widget.name.toUpperCase() + "'s ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18.0)),
-                          TextSpan(
-                              text: "debt records?",
-                              style: TextStyle(fontSize: 18.0)),
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(text: "debt records?"),
                         ]),
                   ),
                 ],

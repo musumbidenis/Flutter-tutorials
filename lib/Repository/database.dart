@@ -144,6 +144,16 @@ Future<void> reduceDebt(String name, String amount) async {
       ['$name', '$name']);
 }
 
+/*Searches for debtors */
+Future searchW(String searchWord) async {
+  final db = await database;
+
+  final List<Map<String, dynamic>> maps = await db
+      .rawQuery("SELECT * FROM debtors where name = ?", ['$searchWord']);
+  print(maps);
+  return maps.toList();
+}
+
 /*Gets the time of day */
 greeting() {
   var hour = DateTime.now().hour;

@@ -22,6 +22,7 @@ class _DebtorsState extends State<Debtors> {
   GlobalKey<FormState> _formKey2 = GlobalKey();
 
   /*Text Controllers */
+  TextEditingController search = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController debt = TextEditingController();
@@ -67,7 +68,9 @@ class _DebtorsState extends State<Debtors> {
                           color: Colors.white,
                           size: 28.0,
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                          searchW(search.text);
+                        }),
                   )
                 ],
               ),
@@ -122,10 +125,10 @@ class _DebtorsState extends State<Debtors> {
                                 decoration: BoxDecoration(
                                     color: Colors.lightGreen[50],
                                     borderRadius: BorderRadius.only(
-                                      topLeft: const Radius.circular(9.0),
-                                      topRight: const Radius.circular(9.0),
-                                      bottomLeft: const Radius.circular(9.0),
-                                      bottomRight: const Radius.circular(9.0),
+                                      topLeft: const Radius.circular(5.0),
+                                      topRight: const Radius.circular(5.0),
+                                      bottomLeft: const Radius.circular(5.0),
+                                      bottomRight: const Radius.circular(5.0),
                                     ),
                                     boxShadow: [
                                       BoxShadow(
