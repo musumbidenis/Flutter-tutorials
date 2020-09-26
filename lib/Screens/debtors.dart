@@ -53,6 +53,7 @@ class _DebtorsState extends State<Debtors> {
         //                 color: Colors.lightGreen[50],
         //                 borderRadius: BorderRadius.circular(24.0)),
         //             child: TextFormField(
+        //               controller: search,
         //               decoration: InputDecoration(
         //                   hintText: "Search",
         //                   contentPadding: const EdgeInsets.only(left: 24.0),
@@ -69,7 +70,7 @@ class _DebtorsState extends State<Debtors> {
         //                   size: 28.0,
         //                 ),
         //                 onPressed: () {
-        //                   searchW(search.text);
+        //                   searchW(search.text.toLowerCase());
         //                 }),
         //           )
         //         ],
@@ -91,14 +92,14 @@ class _DebtorsState extends State<Debtors> {
                         top: MediaQuery.of(context).size.height / 3),
                     child: Center(
                       child: Text(
-                        "No debtors found",
-                        style: TextStyle(fontSize: 20.0),
+                        "No debtors found.",
+                        style: TextStyle(fontSize: 18.0),
                       ),
                     ),
                   );
 
                   /*Return a listview of the debtors where snapshot length > 0 */
-                } else {
+                } else if (snapshot.hasData) {
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -281,7 +282,8 @@ class _DebtorsState extends State<Debtors> {
                                                           var newDebt = Debt(
                                                             name: snapshot
                                                                 .data[index]
-                                                                .name,
+                                                                .name
+                                                                .toLowerCase(),
                                                             debt: debt.text,
                                                             amount: amount.text,
                                                             timestamp:
@@ -316,6 +318,10 @@ class _DebtorsState extends State<Debtors> {
                           ),
                         );
                       });
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
               }),
           SizedBox(height: 50.0),
@@ -395,7 +401,7 @@ class _DebtorsState extends State<Debtors> {
                         if (form.validate()) {
                           /*Initializes new debtor data */
                           var newDebtor = Debtor(
-                            name: name.text,
+                            name: name.text.toLowerCase(),
                             phone: phone.text,
                           );
 

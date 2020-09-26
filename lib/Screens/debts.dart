@@ -143,6 +143,10 @@ class _DebtsState extends State<Debts> {
                                                             .toString()),
                                               ]),
                                         );
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
                                       }
                                     })
                               ],
@@ -164,9 +168,17 @@ class _DebtsState extends State<Debts> {
                       child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * .2),
-                    child: Text(
-                      "No debt records found",
-                      style: TextStyle(fontSize: 20.0),
+                    child: RichText(
+                      text: TextSpan(
+                          style: TextStyle(color: Colors.grey[800]),
+                          children: [
+                            TextSpan(
+                                text: widget.name.toUpperCase(),
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: " has no debt records.",
+                                style: TextStyle(fontSize: 17.0)),
+                          ]),
                     ),
                   ));
 

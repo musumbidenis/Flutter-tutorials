@@ -110,69 +110,77 @@ class _HomeState extends State<Home> {
                         future: getTotal(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          /*Checks if the snapshot returns null */
-                          var total = snapshot.data[0]['total'] == null
-                              ? 0
-                              : snapshot.data[0]['total'];
-                          var paid = snapshot.data[0]['paid'] == null
-                              ? 0
-                              : snapshot.data[0]['paid'];
+                          if (snapshot.hasData) {
+                            /*Checks if the snapshot returns null */
+                            var total = snapshot.data[0]['total'] == null
+                                ? 0
+                                : snapshot.data[0]['total'];
+                            var paid = snapshot.data[0]['paid'] == null
+                                ? 0
+                                : snapshot.data[0]['paid'];
 
-                          /*Gets the remaining balance */
-                          var difference = total - paid;
+                            /*Gets the remaining balance */
+                            var difference = total - paid;
 
-                          /*Gets the total payment percentage */
-                          var percentage;
-                          if (paid == 0) {
-                            percentage = 0.001;
+                            /*Gets the total payment percentage */
+                            var percentage;
+                            if (paid == 0) {
+                              percentage = 0.001;
+                            } else {
+                              percentage = ((paid / total) * 100) / 100;
+                            }
+
+                            /*Returns the progress indicator widget */
+                            return Center(
+                              child: CircularPercentIndicator(
+                                radius: 130.0,
+                                lineWidth: 15.0,
+                                animation: true,
+                                percent: percentage,
+                                progressColor: percentage >= 0.5
+                                    ? Colors.green[300]
+                                    : Colors.red,
+                                center: Text(
+                                  "Kshs " + paid.toString() + "\nPaid",
+                                  style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                footer: Column(
+                                  children: [
+                                    Divider(
+                                      height: 3,
+                                    ),
+                                    SizedBox(height: 10.0),
+                                    Text("Remaining Balance"),
+                                    SizedBox(height: 10.0),
+                                    RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              color: Colors.grey[800]),
+                                          children: [
+                                            TextSpan(
+                                                text: "Kshs " +
+                                                    difference.toString() +
+                                                    " / ",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            TextSpan(
+                                                text:
+                                                    "Kshs " + total.toString())
+                                          ]),
+                                    ),
+                                  ],
+                                ),
+                                circularStrokeCap: CircularStrokeCap.round,
+                              ),
+                            );
                           } else {
-                            percentage = ((paid / total) * 100) / 100;
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
                           }
-
-                          /*Returns the progress indicator widget */
-                          return Center(
-                            child: CircularPercentIndicator(
-                              radius: 130.0,
-                              lineWidth: 15.0,
-                              animation: true,
-                              percent: percentage,
-                              progressColor: percentage >= 0.5
-                                  ? Colors.green[300]
-                                  : Colors.red,
-                              center: Text(
-                                "Kshs " + paid.toString() + "\nPaid",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              footer: Column(
-                                children: [
-                                  Divider(
-                                    height: 3,
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  Text("Remaining Balance"),
-                                  SizedBox(height: 10.0),
-                                  RichText(
-                                    text: TextSpan(
-                                        style:
-                                            TextStyle(color: Colors.grey[800]),
-                                        children: [
-                                          TextSpan(
-                                              text: "Kshs " +
-                                                  difference.toString() +
-                                                  " / ",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                          TextSpan(
-                                              text: "Kshs " + total.toString())
-                                        ]),
-                                  ),
-                                ],
-                              ),
-                              circularStrokeCap: CircularStrokeCap.round,
-                            ),
-                          );
                         }),
                   ],
                 ),
