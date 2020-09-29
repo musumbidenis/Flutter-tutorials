@@ -16,7 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigate() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()))
+        .then((value) => Navigator.pop(context));
   }
 
   @override
